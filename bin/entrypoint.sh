@@ -36,29 +36,41 @@ done
 
 if [ "$1" == "hmaster-1" ]; then
     shift
+    
+    wait_until ${HADOOP_NAMENODE1_HOSTNAME} 8020 
         
     echo "`date` Starting hmaster-1 on `hostname`" 
     echo "`ulimit -a`" 2>&1
+    
+    set +e -x
+    su-exec hadoop hdfs dfs -ls /hbase > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        su-exec hdfs hdfs dfs -mkdir -p /hbase
+        su-exec hdfs hdfs dfs -chown hbase /hbase
+    fi
+    set -e +x
         
-    exec su-exec hbase bin/hbase master "$@" start
+    exec su-exec hbase hbase master "$@" start
 
 elif [ "$1" == "regionserver" ]; then
     shift
-        
+    
+    wait_until ${HBASE_HMASTER1_HOSTNAME} 16000 
+    
     echo "`date` Starting regionserver on `hostname`" 
     echo "`ulimit -a`" 2>&1
         
-    exec su-exec hbase bin/hbase regionmaster "$@" start
+    exec su-exec hbase hbase regionserver "$@" start
 
 elif [ "$1" == "hmaster-2" ]; then
     shift
     
-    wait_until ${HBASE_REGIONSERVER1_HOSTNAME} 60020  
+    wait_until ${HBASE_REGIONSERVER1_HOSTNAME} 16020  
     
     echo "`date` Starting hmaster-2 on `hostname`" 
     echo "`ulimit -a`" 2>&1
         
-    exec su-exec hbase bin/hbase master-backup "$@" start
+    exec su-exec hbase hbase master --backup "$@" start
 
 fi
 
