@@ -36,8 +36,8 @@ services:
     networks: ["${network_name}"]
     hostname: namenode-${i}.${network_name}
     image: smizy/hadoop-base:2.7.2-alpine 
-    expose: ["50070"]
-    ports:  ["8020"]
+    expose: ["8020"]
+    ports:  ["50070"]
     environment:
       - SERVICE_8020_NAME=namenode
       - SERVICE_50070_IGNORE=true
