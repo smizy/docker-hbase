@@ -46,7 +46,7 @@ if [ "$1" == "hmaster-1" ]; then
     su-exec hadoop hdfs dfs -ls /hbase > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         su-exec hdfs hdfs dfs -mkdir -p /hbase
-        su-exec hdfs hdfs dfs -chown hbase /hbase
+        su-exec hdfs hdfs dfs -chown hbase:hbase /hbase
     fi
     set -e +x
         
