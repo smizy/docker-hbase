@@ -54,6 +54,6 @@ COPY lib/*  /usr/local/lib/
     
 WORKDIR ${HBASE_HOME}
 
-VOLUME ["${HBASE_TMP_DIR}", "${HBASE_LOG_DIR}", "{HBASE_HOME}"]
+VOLUME ["${HBASE_TMP_DIR}", "${HBASE_LOG_DIR}", "${HBASE_HOME}"]
 
 ENTRYPOINT ["entrypoint.sh"]
