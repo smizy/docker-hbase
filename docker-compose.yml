@@ -37,42 +37,6 @@ services:
       
     command: -server 3 3 vnet
 
-  zookeeper-1:
-    container_name: zookeeper-1    
-    networks: ["vnet"]
-    hostname: zookeeper-1.vnet
-    image: smizy/zookeeper:3.4-alpine
-    environment:
-      - SERVICE_2181_NAME=zookeeper
-      - SERVICE_2888_IGNORE=true
-      - SERVICE_3888_IGNORE=true
-      
-    command: -server 1 3
-
-  zookeeper-2:
-    container_name: zookeeper-2    
-    networks: ["vnet"]
-    hostname: zookeeper-2.vnet
-    image: smizy/zookeeper:3.4-alpine
-    environment:
-      - SERVICE_2181_NAME=zookeeper
-      - SERVICE_2888_IGNORE=true
-      - SERVICE_3888_IGNORE=true
-      
-    command: -server 2 3
-
-  zookeeper-3:
-    container_name: zookeeper-3    
-    networks: ["vnet"]
-    hostname: zookeeper-3.vnet
-    image: smizy/zookeeper:3.4-alpine
-    environment:
-      - SERVICE_2181_NAME=zookeeper
-      - SERVICE_2888_IGNORE=true
-      - SERVICE_3888_IGNORE=true
-      
-    command: -server 3 3
-
   journalnode-1:
     container_name: journalnode-1
     networks: ["vnet"]
