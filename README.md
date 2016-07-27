@@ -1,8 +1,8 @@
 # docker-hbase
 
-hbase docker image
+Apache HBase docker image based on alpine
 
-## pseudo setup
+## Run server
 ```
 # load default env
 eval $(docker-machine env default)
@@ -39,10 +39,11 @@ hbase(main):006:0> scan 'test'
 hbase(main):007:0> get 'test', 'row1'
 hbase(main):008:0> disable 'test'
 hbase(main):009:0> drop 'test'
+hbase(main):010:0> exit
 
 # hadoop/hbase shutdown  
 docker-compose stop
 
 # cleanup container
-docker-compose rm 
+docker-compose rm -v
 ```

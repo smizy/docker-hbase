@@ -1,38 +1,61 @@
 #!/bin/bash
 
 ###
-# // pseudo mode
-# $ env $(grep -v ^# pseudo.env ) DEBUG=1 ./make_docker_compose_yml.sh hdfs hbase > docker-compose.yml
+# // hdfs+hbase setup 
+# ./make_docker_compose_yml.sh hdfs hbase > docker-compose.yml
 #
-# // distributed mode
-# $ env $(grep -v ^# multihost.env ) ./make_docker_compose_yml.sh hdfs hbase > docker-compose.yml
+# ./make_docker_compose_yml.sh [hdfs] [hbase] [yarn] [drill]
 ###
 
 DEBUG=${DEBUG:-0}
 
-# docker network default name
+# docker network name
 network_name=${network_name:-"vnet"}
 
-# hdfs default scale size
+# zookeeper scale size
 zookeeper=${zookeeper:-3}
+
+# hdfs scale size
 journalnode=${journalnode:-3}
 namenode=${namenode:-2}
 datanode=${datanode:-3}
 
-# yarn default scale size
+# yarn scale size
 resourcemanager=${resourcemanager:-1}
 historyserver=${historyserver:-1}
 nodemanager=${nodemanager:-${datanode}}
 
-# hbase default scale size
+# hbase scale size
 hmaster=${hmaster:-2}
 regionserver=${regionserver:-${datanode}}
+
+# drill scale size
+drillbit=${drillbit:-1}
 
 debug() {
   [ ${DEBUG} -gt 0 ] && echo "[DEBUG] $@" 1>&2
 }
  
 services=()
+
+zk_quorum=()
+
+for z in `seq ${zookeeper}`; do
+    zk_quorum+=("zookeeper-$z.${network_name}:2181")
+done
+ZOOKEEPER_QUORUM="$(IFS=,; echo "${zk_quorum[*]}")"
+
+zookeeper_arg=0
+for component in $@; do 
+    if [ "${component}" == "zookeeper" ]; then
+        zookeeper_arg=1
+        break
+    fi
+done   
+
+if [ $zookeeper_arg -eq 0 ]; then
+    set -- zookeeper $@
+fi
 
 for component in $@; do 
     template=services.${component}.yml.tpl
@@ -67,6 +90,8 @@ for component in $@; do
             _part=$(echo "$part" \
                 | sed -e 's/${i}/'$i'/g' \
                       -e 's/${network_name}/'$network_name'/g'  \
+                      -e 's/${scale_size}/'$scale_size'/g' \
+                      -e 's/${ZOOKEEPER_QUORUM}/'$ZOOKEEPER_QUORUM'/g' \
                 | sed -e 's/${'${swarm_filter}'}/'"${filter}"'/g' \
             )
             services+=("$_part" "")

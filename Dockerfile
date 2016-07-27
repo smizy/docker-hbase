@@ -1,7 +1,7 @@
 FROM java:8-jre-alpine
 MAINTAINER smizy
 
-ENV HBASE_VERSION    1.1.5
+ENV HBASE_VERSION    1.2.2
 ENV HBASE_HOME       /usr/local/hbase-${HBASE_VERSION}
 ENV HADOOP_VERSION   2.7.2
 ENV HADOOP_HOME      /usr/local/hadoop-${HADOOP_VERSION}

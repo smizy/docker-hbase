@@ -7,7 +7,7 @@ services:
     container_name: hmaster-${i}
     networks: ["${network_name}"]
     hostname: hmaster-${i}.${network_name}
-    image: smizy/hbase:1.1.5-alpine
+    image: smizy/hbase:1.2.2-alpine
     expose: [16000, 16010]
     environment:
       - SERVICE_16000_NAME=hmaster
@@ -23,7 +23,7 @@ services:
     container_name: regionserver-${i}
     networks: ["${network_name}"]
     hostname: regionserver-${i}.${network_name}
-    image: smizy/hbase:1.1.5-alpine
+    image: smizy/hbase:1.2.2-alpine
     expose: [16020, 16030]
     environment:
       - SERVICE_16020_NAME=regionserver

@@ -11,6 +11,42 @@ services:
       - SERVICE_2888_IGNORE=true
       - SERVICE_3888_IGNORE=true
       
+    command: -server 1 3 vnet
+
+  zookeeper-2:
+    container_name: zookeeper-2    
+    networks: ["vnet"]
+    hostname: zookeeper-2.vnet
+    image: smizy/zookeeper:3.4-alpine
+    environment:
+      - SERVICE_2181_NAME=zookeeper
+      - SERVICE_2888_IGNORE=true
+      - SERVICE_3888_IGNORE=true
+      
+    command: -server 2 3 vnet
+
+  zookeeper-3:
+    container_name: zookeeper-3    
+    networks: ["vnet"]
+    hostname: zookeeper-3.vnet
+    image: smizy/zookeeper:3.4-alpine
+    environment:
+      - SERVICE_2181_NAME=zookeeper
+      - SERVICE_2888_IGNORE=true
+      - SERVICE_3888_IGNORE=true
+      
+    command: -server 3 3 vnet
+
+  zookeeper-1:
+    container_name: zookeeper-1    
+    networks: ["vnet"]
+    hostname: zookeeper-1.vnet
+    image: smizy/zookeeper:3.4-alpine
+    environment:
+      - SERVICE_2181_NAME=zookeeper
+      - SERVICE_2888_IGNORE=true
+      - SERVICE_3888_IGNORE=true
+      
     command: -server 1 3
 
   zookeeper-2:
@@ -78,8 +114,8 @@ services:
     networks: ["vnet"]
     hostname: namenode-1.vnet
     image: smizy/hadoop-base:2.7.2-alpine 
-    expose: ["50070"]
-    ports:  ["8020"]
+    expose: ["8020"]
+    ports:  ["50070"]
     environment:
       - SERVICE_8020_NAME=namenode
       - SERVICE_50070_IGNORE=true
@@ -92,8 +128,8 @@ services:
     networks: ["vnet"]
     hostname: namenode-2.vnet
     image: smizy/hadoop-base:2.7.2-alpine 
-    expose: ["50070"]
-    ports:  ["8020"]
+    expose: ["8020"]
+    ports:  ["50070"]
     environment:
       - SERVICE_8020_NAME=namenode
       - SERVICE_50070_IGNORE=true
@@ -147,7 +183,7 @@ services:
     container_name: hmaster-1
     networks: ["vnet"]
     hostname: hmaster-1.vnet
-    image: smizy/hbase:1.1.5-alpine
+    image: smizy/hbase:1.2.2-alpine
     expose: [16000, 16010]
     environment:
       - SERVICE_16000_NAME=hmaster
@@ -161,7 +197,7 @@ services:
     container_name: hmaster-2
     networks: ["vnet"]
     hostname: hmaster-2.vnet
-    image: smizy/hbase:1.1.5-alpine
+    image: smizy/hbase:1.2.2-alpine
     expose: [16000, 16010]
     environment:
       - SERVICE_16000_NAME=hmaster
@@ -175,7 +211,7 @@ services:
     container_name: regionserver-1
     networks: ["vnet"]
     hostname: regionserver-1.vnet
-    image: smizy/hbase:1.1.5-alpine
+    image: smizy/hbase:1.2.2-alpine
     expose: [16020, 16030]
     environment:
       - SERVICE_16020_NAME=regionserver
@@ -187,7 +223,7 @@ services:
     container_name: regionserver-2
     networks: ["vnet"]
     hostname: regionserver-2.vnet
-    image: smizy/hbase:1.1.5-alpine
+    image: smizy/hbase:1.2.2-alpine
     expose: [16020, 16030]
     environment:
       - SERVICE_16020_NAME=regionserver
@@ -199,7 +235,7 @@ services:
     container_name: regionserver-3
     networks: ["vnet"]
     hostname: regionserver-3.vnet
-    image: smizy/hbase:1.1.5-alpine
+    image: smizy/hbase:1.2.2-alpine
     expose: [16020, 16030]
     environment:
       - SERVICE_16020_NAME=regionserver

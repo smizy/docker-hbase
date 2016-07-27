@@ -43,7 +43,19 @@ if [ "$1" == "hmaster-1" ]; then
     echo "`ulimit -a`" 2>&1
     
     set +e -x
-    su-exec hadoop hdfs dfs -ls /hbase > /dev/null 2>&1
+    su-exec hdfs hdfs dfs -ls /tmp > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        su-exec hdfs hdfs dfs -mkdir -p /tmp
+        su-exec hdfs hdfs dfs -chmod 1777 /tmp
+    fi
+    
+    su-exec hdfs hdfs dfs -ls /user > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        su-exec hdfs hdfs dfs -mkdir -p /user/hdfs
+        su-exec hdfs hdfs dfs -chmod 755 /user
+    fi
+    
+    su-exec hdfs hdfs dfs -ls /hbase > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         su-exec hdfs hdfs dfs -mkdir -p /hbase
         su-exec hdfs hdfs dfs -chown hbase:hbase /hbase
