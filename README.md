@@ -1,6 +1,6 @@
 # docker-hbase
 
-[![](http://badge-imagelayers.iron.io/smizy/hbase:1.2.2-alpine.svg)](http://imagelayers.iron.io/?images=smizy/hbase:1.2.2-alpine 'Get your own badge on imagelayers.iron.io')
+[![](https://imagelayers.io/badge/smizy/hbase:1.2.2-alpine.svg)](https://imagelayers.io/?images=smizy/hbase:1.2.2-alpine 'Get your own badge on imagelayers.io')
 
 Apache HBase docker image based on alpine
 
