@@ -1,4 +1,4 @@
-FROM java:8-jre-alpine
+FROM alpine:3.4
 MAINTAINER smizy
 
 ENV HBASE_VERSION    1.2.2
@@ -8,7 +8,9 @@ ENV HADOOP_HOME      /usr/local/hadoop-${HADOOP_VERSION}
 ENV HBASE_CONF_DIR   ${HBASE_HOME}/conf
 ENV HBASE_LOG_DIR    /var/log/hbase
 ENV HBASE_TMP_DIR    /hbase
-ENV PATH             $PATH:${HBASE_HOME}/sbin:${HBASE_HOME}/bin:${HADOOP_HOME}/bin
+
+ENV JAVA_HOME  /usr/lib/jvm/default-jvm
+ENV PATH       $PATH:${JAVA_HOME}/bin:${HBASE_HOME}/sbin:${HBASE_HOME}/bin:${HADOOP_HOME}/bin
 
 ENV HADOOP_NAMENODE1_HOSTNAME     namenode-1.vnet
 ENV HBASE_ROOT_DIR                hdfs://${HADOOP_NAMENODE1_HOSTNAME}:8020/hbase
@@ -20,6 +22,7 @@ ENV HBASE_ZOOKEEPER_QUORUM        zookeeper-1.vnet,zookeeper-2.vnet,zookeeper-3.
 RUN set -x \
     && apk --no-cache add \
         bash \
+        openjdk8-jre \
         su-exec \ 
     && mirror_url=$( \
         wget -q -O - http://www.apache.org/dyn/closer.cgi/hbase/ \

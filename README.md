@@ -1,5 +1,7 @@
 # docker-hbase
 
+[![](https://imagelayers.io/badge/smizy/hbase:1.2.2-alpine.svg)](https://imagelayers.io/?images=smizy/hbase:1.2.2-alpine 'Get your own badge on imagelayers.io')
+
 Apache HBase docker image based on alpine
 
 ## Run server
