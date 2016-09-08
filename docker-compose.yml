@@ -47,6 +47,7 @@ services:
       - SERVICE_8485_NAME=journalnode
       - SERVICE_8480_IGNORE=true
       - HADOOP_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181,zookeeper-2.vnet:2181,zookeeper-3.vnet:2181 
+      - HADOOP_HEAPSIZE=1000
       
     command: journalnode
 
@@ -60,6 +61,7 @@ services:
       - SERVICE_8485_NAME=journalnode
       - SERVICE_8480_IGNORE=true
       - HADOOP_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181,zookeeper-2.vnet:2181,zookeeper-3.vnet:2181 
+      - HADOOP_HEAPSIZE=1000
       
     command: journalnode
 
@@ -73,6 +75,7 @@ services:
       - SERVICE_8485_NAME=journalnode
       - SERVICE_8480_IGNORE=true
       - HADOOP_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181,zookeeper-2.vnet:2181,zookeeper-3.vnet:2181 
+      - HADOOP_HEAPSIZE=1000
       
     command: journalnode
 
@@ -87,6 +90,7 @@ services:
       - SERVICE_8020_NAME=namenode
       - SERVICE_50070_IGNORE=true
       - HADOOP_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181,zookeeper-2.vnet:2181,zookeeper-3.vnet:2181 
+      - HADOOP_HEAPSIZE=1000
       
     entrypoint: entrypoint.sh
     command: namenode-1
@@ -102,6 +106,7 @@ services:
       - SERVICE_8020_NAME=namenode
       - SERVICE_50070_IGNORE=true
       - HADOOP_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181,zookeeper-2.vnet:2181,zookeeper-3.vnet:2181 
+      - HADOOP_HEAPSIZE=1000
       
     entrypoint: entrypoint.sh
     command: namenode-2
@@ -117,6 +122,7 @@ services:
       - SERVICE_50020_IGNORE=true
       - SERVICE_50075_IGNORE=true
       - HADOOP_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181,zookeeper-2.vnet:2181,zookeeper-3.vnet:2181 
+      - HADOOP_HEAPSIZE=1000
       
     entrypoint: entrypoint.sh
     command: datanode
@@ -132,6 +138,7 @@ services:
       - SERVICE_50020_IGNORE=true
       - SERVICE_50075_IGNORE=true
       - HADOOP_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181,zookeeper-2.vnet:2181,zookeeper-3.vnet:2181 
+      - HADOOP_HEAPSIZE=1000
       
     entrypoint: entrypoint.sh
     command: datanode
@@ -147,6 +154,7 @@ services:
       - SERVICE_50020_IGNORE=true
       - SERVICE_50075_IGNORE=true
       - HADOOP_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181,zookeeper-2.vnet:2181,zookeeper-3.vnet:2181 
+      - HADOOP_HEAPSIZE=1000
       
     entrypoint: entrypoint.sh
     command: datanode

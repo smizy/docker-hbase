@@ -1,9 +1,23 @@
 FROM alpine:3.4
 MAINTAINER smizy
 
-ENV HBASE_VERSION    1.2.2
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+
+LABEL \
+    org.label-schema.build-date=$BUILD_DATE \
+    org.label-schema.docker.dockerfile="/Dockerfile" \
+    org.label-schema.license="Apache License 2.0" \
+    org.label-schema.name="smizy/hbase" \
+    org.label-schema.url="https://github.com/smizy" \
+    org.label-schema.vcs-ref=$VCS_REF \
+    org.label-schema.vcs-type="Git" \
+    org.label-schema.vcs-url="https://github.com/smizy/hbase"
+
+ENV HBASE_VERSION    $VERSION
 ENV HBASE_HOME       /usr/local/hbase-${HBASE_VERSION}
-ENV HADOOP_VERSION   2.7.2
+ENV HADOOP_VERSION   2.7.3
 ENV HADOOP_HOME      /usr/local/hadoop-${HADOOP_VERSION}
 ENV HBASE_CONF_DIR   ${HBASE_HOME}/conf
 ENV HBASE_LOG_DIR    /var/log/hbase
