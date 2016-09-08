@@ -31,8 +31,9 @@ EOD
     echo "$i:******** ${lines[$i]}"
   done
 
-  cols=( $get_result )
+  val="$(IFS=' '; set -- ${get_result}; echo $3)"
 
-  [ "${cols[2]}" = "value=value1" ]
+  echo "[vals = $val]"
+  [ "${val}" = "value=value1" ]
 }
 
