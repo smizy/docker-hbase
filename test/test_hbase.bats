@@ -33,7 +33,7 @@ EOD
 
   val="$(IFS=' '; set -- ${get_result}; echo $3)"
 
-  echo "[vals = $val]"
+  echo "[val = $val]"
   [ "${val}" = "value=value1" ]
 }
 
