@@ -6,7 +6,7 @@ load test_helper
   echo "${output}"
 
   [ $status -eq 0 ]
-  [ "${lines[0]}" = "HBase ${VERSION}" ]
+  [[ "${lines[0]}" =~ " ${VERSION}" ]]
 }
 
 @test "hbase shell returns the correct result" {
