@@ -2,11 +2,11 @@
 # https://circleci.com/docs/docker
 machine:
   environment:
-    VERSION: 1.2.3
+    VERSION: 1.1.6
     BUILD_DATE: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
     VCS_REF: ${CIRCLE_SHA1:0:7}
     TAG: ${VERSION}-alpine
-    TAG_SHORT: 1.2-alpine
+    TAG_SHORT: 1.1-alpine
     BATS_VER: 0.4.0
   services: 
     - docker
@@ -43,6 +43,5 @@ deployment:
       - docker tag smizy/hbase:${TAG} smizy/hbase:${TAG_SHORT}
       - docker push smizy/hbase:${TAG}
       - docker push smizy/hbase:${TAG_SHORT}
-      - docker push smizy/hbase:latest
       - docker logout
-      - curl -X POST 'https://hooks.microbadger.com/images/smizy/hbase/HJbJIalNdOSSFYlTetDgjve1pGs='
+#      - curl -X POST 'https://hooks.microbadger.com/images/smizy/hbase/HJbJIalNdOSSFYlTetDgjve1pGs='
