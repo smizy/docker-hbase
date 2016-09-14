@@ -35,7 +35,7 @@ test:
 # https://circleci.com/docs/environment-variables
 deployment:
   master:
-    branch: [master, 1.1.x]
+    branch: 1.1.x
     owner: smizy
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
