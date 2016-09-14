@@ -35,7 +35,7 @@ test:
 # https://circleci.com/docs/environment-variables
 deployment:
   master:
-    branch: master
+    branch: [master, 1.1.x]
     owner: smizy
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
@@ -44,4 +44,4 @@ deployment:
       - docker push smizy/hbase:${TAG}
       - docker push smizy/hbase:${TAG_SHORT}
       - docker logout
-#      - curl -X POST 'https://hooks.microbadger.com/images/smizy/hbase/HJbJIalNdOSSFYlTetDgjve1pGs='
+      - curl -X POST 'https://hooks.microbadger.com/images/smizy/hbase/HJbJIalNdOSSFYlTetDgjve1pGs='    
