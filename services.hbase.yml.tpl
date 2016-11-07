@@ -7,7 +7,7 @@ services:
     container_name: hmaster-${i}
     networks: ["${network_name}"]
     hostname: hmaster-${i}.${network_name}
-    image: smizy/hbase:1.2.3-alpine
+    image: smizy/hbase:1.2.4-alpine
     expose: [16000]
     ports:  [16010]
     depends_on: ["zookeeper-1"]
@@ -26,7 +26,7 @@ services:
     container_name: regionserver-${i}
     networks: ["${network_name}"]
     hostname: regionserver-${i}.${network_name}
-    image: smizy/hbase:1.2.3-alpine
+    image: smizy/hbase:1.2.4-alpine
     expose: [16020, 16030]
     depends_on: ["zookeeper-1"]
     environment:

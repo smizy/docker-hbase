@@ -163,7 +163,7 @@ services:
     container_name: hmaster-1
     networks: ["vnet"]
     hostname: hmaster-1.vnet
-    image: smizy/hbase:1.2.3-alpine
+    image: smizy/hbase:1.2.4-alpine
     expose: [16000]
     ports:  [16010]
     depends_on: ["zookeeper-1"]
@@ -180,7 +180,7 @@ services:
     container_name: hmaster-2
     networks: ["vnet"]
     hostname: hmaster-2.vnet
-    image: smizy/hbase:1.2.3-alpine
+    image: smizy/hbase:1.2.4-alpine
     expose: [16000]
     ports:  [16010]
     depends_on: ["zookeeper-1"]
@@ -197,7 +197,7 @@ services:
     container_name: regionserver-1
     networks: ["vnet"]
     hostname: regionserver-1.vnet
-    image: smizy/hbase:1.2.3-alpine
+    image: smizy/hbase:1.2.4-alpine
     expose: [16020, 16030]
     depends_on: ["zookeeper-1"]
     environment:
@@ -211,7 +211,7 @@ services:
     container_name: regionserver-2
     networks: ["vnet"]
     hostname: regionserver-2.vnet
-    image: smizy/hbase:1.2.3-alpine
+    image: smizy/hbase:1.2.4-alpine
     expose: [16020, 16030]
     depends_on: ["zookeeper-1"]
     environment:
@@ -225,7 +225,7 @@ services:
     container_name: regionserver-3
     networks: ["vnet"]
     hostname: regionserver-3.vnet
-    image: smizy/hbase:1.2.3-alpine
+    image: smizy/hbase:1.2.4-alpine
     expose: [16020, 16030]
     depends_on: ["zookeeper-1"]
     environment:

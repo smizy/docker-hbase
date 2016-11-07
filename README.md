@@ -1,7 +1,7 @@
 # docker-hbase
 
-[![](https://images.microbadger.com/badges/image/smizy/hbase:1.2.3-alpine.svg)](http://microbadger.com/images/smizy/hbase:1.2.3-alpine "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/smizy/hbase:1.2.3-alpine.svg)](http://microbadger.com/images/smizy/hbase:1.2.3-alpine "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/smizy/hbase:1.2.4-alpine.svg)](http://microbadger.com/images/smizy/hbase:1.2.4-alpine "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/smizy/hbase:1.2.4-alpine.svg)](http://microbadger.com/images/smizy/hbase:1.2.4-alpine "Get your own version badge on microbadger.com")
 [![CircleCI](https://circleci.com/gh/smizy/docker-hbase.svg?style=shield&circle-token=c37476ccaf10f385fa251abd7a45c7e93817db0f)](https://circleci.com/gh/smizy/docker-hbase)
 
 Apache HBase docker image based on alpine
