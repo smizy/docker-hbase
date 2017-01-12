@@ -23,8 +23,8 @@ test:
 		> docker-compose.ci.yml.tmp
 	docker-compose -f docker-compose.ci.yml.tmp up -d 
 	docker-compose ps
-	docker run --net vnet --volumes-from regionserver-1 smizy/hbase:${VERSION}-alpine  bash -c 'for i in $$(seq 200); do nc -z regionserver-1.vnet 16020 && echo test starting && break; echo -n .; sleep 1; [ $$i -ge 200 ] && echo timeout && exit 124 ; done'
-	
+	docker run --net vnet -e HBASE_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181 --volumes-from regionserver-1 smizy/hbase:${VERSION}-alpine  bash -c 'for i in $$(seq 200); do nc -z regionserver-1.vnet 16020 && echo test starting && break; echo -n .; sleep 1; [ $$i -ge 200 ] && echo timeout && exit 124 ; done'
+
 	bats test/test_*.bats
 
 	docker-compose -f docker-compose.ci.yml.tmp stop
