@@ -18,7 +18,7 @@ runtime:
 .PHONY: test
 test:
 	(docker network ls | grep vnet ) || docker network create vnet
-	regionserver=1 ./make_docker_compose_yml.sh hdfs hbase \
+	zookeeper=1 namenode=1 datanode=1 ./make_docker_compose_yml.sh hdfs hbase \
 		| sed -E 's/(HADOOP|YARN)_HEAPSIZE=1000/\1_HEAPSIZE=600/g' \
 		> docker-compose.ci.yml.tmp
 	docker-compose -f docker-compose.ci.yml.tmp up -d 

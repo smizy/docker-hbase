@@ -17,6 +17,7 @@ services:
       - SERVICE_8032_IGNORE=true
       - SERVICE_8033_IGNORE=true
       - HADOOP_ZOOKEEPER_QUORUM=${ZOOKEEPER_QUORUM} 
+      - HADOOP_NAMENODE_HA=${NAMENODE_HA}
       - YARN_HEAPSIZE=1000
       ${SWARM_FILTER_RESOURCEMANAGER_${i}}
     entrypoint: entrypoint.sh
@@ -36,6 +37,7 @@ services:
       - SERVICE_10020_IGNORE=true
       - HADOOP_ZOOKEEPER_QUORUM=${ZOOKEEPER_QUORUM} 
       - HADOOP_HEAPSIZE=1000
+      - HADOOP_NAMENODE_HA=${NAMENODE_HA}
       ${SWARM_FILTER_HISTORYSERVER_${i}}
     entrypoint: entrypoint.sh
     command: historyserver-${i}
@@ -53,6 +55,7 @@ services:
       - SERVICE_8040_IGNORE=true
       - SERVICE_8041_IGNORE=true
       - HADOOP_ZOOKEEPER_QUORUM=${ZOOKEEPER_QUORUM} 
+      - HADOOP_NAMENODE_HA=${NAMENODE_HA}
       - YARN_HEAPSIZE=1000
       ${SWARM_FILTER_NODEMANAGER_${i}}
     entrypoint: entrypoint.sh

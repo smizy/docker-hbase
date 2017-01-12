@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.5
 MAINTAINER smizy
 
 ARG BUILD_DATE
@@ -13,7 +13,7 @@ LABEL \
     org.label-schema.url="https://github.com/smizy" \
     org.label-schema.vcs-ref=$VCS_REF \
     org.label-schema.vcs-type="Git" \
-    org.label-schema.vcs-url="https://github.com/smizy/hbase"
+    org.label-schema.vcs-url="https://github.com/smizy/docker-hbase"
 
 ENV HBASE_VERSION    $VERSION
 ENV HBASE_HOME       /usr/local/hbase-${HBASE_VERSION}
@@ -45,6 +45,7 @@ RUN set -x \
     ) \   
     && wget -q -O - ${mirror_url}/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz \
         | tar -xzf - -C /usr/local \
+    && ln -s /usr/local/hbase-${HBASE_VERSION} /usr/local/hbase-${HBASE_VERSION%.*} \
     ## user/dir/permmsion
     && adduser -D  -g '' -s /sbin/nologin -u 1000 docker \
     && for user in hadoop hbase; do \

@@ -1,9 +1,12 @@
 #!/bin/bash
 
 ###
-# // hdfs+hbase setup 
-# ./make_docker_compose_yml.sh hdfs hbase > docker-compose.yml
+# // small setup
+# $ zookeeper=1 namenode=1 datanode=1 ./make_docker_compose_file.sh hdfs yarn > docker-compose.yml
 #
+# // hdfs + hbase setup
+#  ./make_docker_compose_file.sh hdfs hbase > docker-compose.yml
+# 
 # ./make_docker_compose_yml.sh [hdfs] [hbase] [yarn] [drill]
 ###
 
@@ -20,13 +23,25 @@ journalnode=${journalnode:-3}
 namenode=${namenode:-2}
 datanode=${datanode:-3}
 
+if [ "$namenode" -eq 1 ]; then
+    journalnode=0
+fi
+
+nn_ha=()
+if [ "$namenode" -gt 1 ]; then
+    for i in `seq 1 ${namenode}`; do
+        nn_ha+=("nn${i}")
+    done
+fi
+NAMENODE_HA="$(IFS=,; echo "${nn_ha[*]}")"
+
 # yarn scale size
 resourcemanager=${resourcemanager:-1}
 historyserver=${historyserver:-1}
 nodemanager=${nodemanager:-${datanode}}
 
 # hbase scale size
-hmaster=${hmaster:-2}
+hmaster=${hmaster:-${namenode}}
 regionserver=${regionserver:-${datanode}}
 
 # drill scale size
@@ -80,6 +95,9 @@ for component in $@; do
         debug $KK scale_size: $scale_size
         
         for i in `seq 1 ${scale_size}`; do 
+            if [ ${i} -gt ${scale_size} ]; then
+                break
+            fi
             swarm_filter="SWARM_FILTER_${KK}_${i}" 
             debug $swarm_filter
             # replace template variable
@@ -92,6 +110,7 @@ for component in $@; do
                       -e 's/${network_name}/'$network_name'/g'  \
                       -e 's/${scale_size}/'$scale_size'/g' \
                       -e 's/${ZOOKEEPER_QUORUM}/'$ZOOKEEPER_QUORUM'/g' \
+                      -e 's/${NAMENODE_HA}/'"${NAMENODE_HA}"'/g' \
                 | sed -e 's/${'${swarm_filter}'}/'"${filter}"'/g' \
             )
             services+=("$_part" "")
@@ -110,8 +129,7 @@ services:
 $docker_compose_services
 
 networks:
-  vnet:
+  $network_name:
     external:
       name: $network_name 
 EOD
-

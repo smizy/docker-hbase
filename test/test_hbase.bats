@@ -10,7 +10,7 @@ load test_helper
 }
 
 @test "hbase shell returns the correct result" {
-  run docker run  -i --net vnet --volumes-from regionserver-1 smizy/hbase:${VERSION}-alpine hbase shell <<EOD
+  run docker run  -i --net vnet -e HBASE_ZOOKEEPER_QUORUM=zookeeper-1.vnet --volumes-from regionserver-1 smizy/hbase:${VERSION}-alpine hbase shell <<EOD
 create 'test', 'cf'
 list 'test'
 put 'test', 'row1', 'cf:a', 'value1'
