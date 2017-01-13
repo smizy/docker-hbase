@@ -84,6 +84,16 @@ elif [ "$1" == "hmaster-2" ]; then
         
     exec su-exec hbase hbase master --backup "$@" start
 
+elif [ "$1" == "thrift" ]; then
+    shift
+    
+    wait_until ${HBASE_REGIONSERVER1_HOSTNAME} 16020
+    
+    echo "`date` Starting thirft on `hostname`" 
+    echo "`ulimit -a`" 2>&1
+        
+    exec su-exec hbase hbase thrift "$@" start
+
 fi
 
 exec "$@"

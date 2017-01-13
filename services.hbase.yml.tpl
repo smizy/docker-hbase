@@ -36,3 +36,18 @@ services:
       ${SWARM_FILTER_REGIONSERVER_${i}}
     command: regionserver
 ##/ regionserver
+
+## hbasethrift
+  hbasethrift-${i}:
+    container_name: hbasethrift-${i}
+    networks: ["${network_name}"]
+    hostname: hbasethift-${i}.${network_name}
+    image: smizy/hbase:1.2.4-alpine
+    ports: [9090]
+    depends_on: ["regionserver-1"]
+    environment:
+      - SERVICE_9090_NAME=hbasethirft
+      - HBASE_ZOOKEEPER_QUORUM=${ZOOKEEPER_QUORUM} 
+      ${SWARM_FILTER_HBASETHRIFT_${i}}
+    command: thrift  
+##/ hbasethirft

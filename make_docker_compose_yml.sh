@@ -43,6 +43,7 @@ nodemanager=${nodemanager:-${datanode}}
 # hbase scale size
 hmaster=${hmaster:-${namenode}}
 regionserver=${regionserver:-${datanode}}
+hbasethrift=${hbasethrift:-0}
 
 # drill scale size
 drillbit=${drillbit:-1}

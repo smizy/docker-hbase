@@ -78,6 +78,19 @@ services:
       
     command: regionserver
 
+  hbasethrift-1:
+    container_name: hbasethrift-1
+    networks: ["vnet"]
+    hostname: hbasethift-1.vnet
+    image: smizy/hbase:1.2.4-alpine
+    ports: [9090]
+    depends_on: ["regionserver-1"]
+    environment:
+      - SERVICE_9090_NAME=hbasethirft
+      - HBASE_ZOOKEEPER_QUORUM=zookeeper-1.vnet:2181 
+      
+    command: thrift  
+
 networks:
   vnet:
     external:
