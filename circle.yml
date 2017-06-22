@@ -43,6 +43,6 @@ deployment:
       - docker tag smizy/hbase:${TAG} smizy/hbase:${TAG_SHORT}
       - docker push smizy/hbase:${TAG}
       - docker push smizy/hbase:${TAG_SHORT}
-#      - docker push smizy/hbase:latest
+      - docker push smizy/hbase:latest
       - docker logout
       - curl -X POST 'https://hooks.microbadger.com/images/smizy/hbase/HJbJIalNdOSSFYlTetDgjve1pGs='

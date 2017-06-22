@@ -7,7 +7,7 @@ services:
     container_name: drillbit-${i}
     networks: ["${network_name}"]
     hostname: drillbit-${i}.${network_name}
-    image: smizy/apache-drill:1.8-alpine
+    image: smizy/apache-drill:1.10-alpine
     ports: 
       - 8047
     depends_on: ["zookeeper-1"]  
