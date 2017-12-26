@@ -1,11 +1,11 @@
-FROM alpine:3.5
-MAINTAINER smizy
+FROM alpine:3.6
 
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
 
 LABEL \
+    maintainer="smizy" \
     org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.docker.dockerfile="/Dockerfile" \
     org.label-schema.license="Apache License 2.0" \
@@ -17,7 +17,7 @@ LABEL \
 
 ENV HBASE_VERSION    $VERSION
 ENV HBASE_HOME       /usr/local/hbase-${HBASE_VERSION}
-ENV HADOOP_VERSION   2.7.3
+ENV HADOOP_VERSION   2.8
 ENV HADOOP_HOME      /usr/local/hadoop-${HADOOP_VERSION}
 ENV HBASE_CONF_DIR   ${HBASE_HOME}/conf
 ENV HBASE_LOG_DIR    /var/log/hbase

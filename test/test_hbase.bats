@@ -24,7 +24,7 @@ EOD
 
   [ $status -eq 0 ]
   
-  get_result="${lines[26]}"
+  get_result="${lines[27]}"
 
   n=$(( ${#lines[*]} -1 ))
   for i in $(seq 0 $n); do
