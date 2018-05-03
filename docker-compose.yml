@@ -51,7 +51,7 @@ services:
     container_name: hmaster-1
     networks: ["vnet"]
     hostname: hmaster-1.vnet
-    image: smizy/hbase:1.4.3-alpine
+    image: smizy/hbase:1.4.4-alpine
     expose: [16000]
     ports:  [16010]
     depends_on: ["zookeeper-1"]
@@ -68,7 +68,7 @@ services:
     container_name: regionserver-1
     networks: ["vnet"]
     hostname: regionserver-1.vnet
-    image: smizy/hbase:1.4.3-alpine
+    image: smizy/hbase:1.4.4-alpine
     expose: [16020, 16030]
     depends_on: ["zookeeper-1"]
     environment:
