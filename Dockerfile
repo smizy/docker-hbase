@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -17,7 +17,7 @@ LABEL \
 
 ENV HBASE_VERSION    $VERSION
 ENV HBASE_HOME       /usr/local/hbase-${HBASE_VERSION}
-ENV HADOOP_VERSION   2.8
+ENV HADOOP_VERSION   2.7
 ENV HADOOP_HOME      /usr/local/hadoop-${HADOOP_VERSION}
 ENV HBASE_CONF_DIR   ${HBASE_HOME}/conf
 ENV HBASE_LOG_DIR    /var/log/hbase
@@ -37,6 +37,7 @@ RUN set -x \
     && apk --no-cache add \
         bash \
         openjdk8-jre \
+        libc6-compat \
         su-exec \ 
     && mirror_url=$( \
         wget -q -O - http://www.apache.org/dyn/closer.cgi/hbase/ \

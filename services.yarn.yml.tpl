@@ -7,7 +7,7 @@ services:
     container_name: resourcemanager-${i}
     networks: ["${network_name}"]
     hostname: resourcemanager-${i}.${network_name}
-    image: smizy/hadoop-base:2.8.3-alpine
+    image: smizy/hadoop-base:2.7.6-alpine
     expose: ["8030-8033"]
     ports:  ["8088"]
     environment:
@@ -29,7 +29,7 @@ services:
     container_name: historyserver-${i}
     networks: ["${network_name}"]
     hostname: historyserver-${i}.${network_name}
-    image: smizy/hadoop-base:2.8.3-alpine
+    image: smizy/hadoop-base:2.7.6-alpine
     expose: ["10020"]
     ports:  ["19888:19888"]
     environment:
@@ -48,7 +48,7 @@ services:
     container_name: nodemanager-${i}
     networks: ["${network_name}"]
     hostname: nodemanager-${i}.${network_name}
-    image: smizy/hadoop-base:2.8.3-alpine
+    image: smizy/hadoop-base:2.7.6-alpine
     expose: ["8040-8042"]
     environment:
       - SERVICE_8042_NAME=nodemanager

@@ -7,8 +7,8 @@ jobs:
       - image: docker:17.06.0-ce-git
 
     environment:
-      VERSION: "1.4.4"
-      TAG: "1.4.4-alpine"
+      VERSION: "2.0.0"
+      TAG: "2.0.0-alpine"
       # TAG: ${VERSION}-alpine
       # TAG_MINOR: ${VERSION%.*}-alpine
       # TAG_MAJOR: ${VERSION%%.*}-alpine 
@@ -78,7 +78,7 @@ jobs:
             TAG_MINOR=${VERSION%.*}-alpine
             TAG_MAJOR=${VERSION%%.*}-alpine 
 
-            if [ "${CIRCLE_BRANCH}" == "1.4" ]; then
+            if [ "${CIRCLE_BRANCH}" == "2.0" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker image tag smizy/hbase:${TAG} smizy/hbase
               docker image tag smizy/hbase:${TAG} smizy/hbase:${TAG_MINOR}
