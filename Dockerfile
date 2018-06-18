@@ -1,11 +1,11 @@
 FROM alpine:3.5
-MAINTAINER smizy
 
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
 
 LABEL \
+    maintainer="smizy" \
     org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.docker.dockerfile="/Dockerfile" \
     org.label-schema.license="Apache License 2.0" \

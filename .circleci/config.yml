@@ -1,0 +1,93 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/deps
+
+    docker:
+      - image: docker:17.06.0-ce-git
+
+    environment:
+      VERSION: "1.2.6.1"
+      TAG: "1.2.6.1-alpine"
+      # TAG: ${VERSION}-alpine
+      # TAG_MINOR: ${VERSION%.*}-alpine
+      # TAG_MAJOR: ${VERSION%%.*}-alpine 
+      # BUILD_DATE: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+      VCS_REF: ${CIRCLE_SHA1}
+      BATS_VER: "0.4.0"  
+
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          version: 17.06.0-ce
+
+      # - run:
+      #     name: set TAG vars
+      #     command: |
+      #       export TAG=${VERSION}-alpine
+      #       export TAG_MINOR=${VERSION%.*}-alpine
+      #       export TAG_MAJOR=${VERSION%%.*}-alpine           
+
+      - run:
+          name: install dependencies - lib
+          command: |
+            apk --no-cache add \
+              bash \
+              curl \
+              curl-dev \
+              make \
+              python3 
+            
+            pip3 install --upgrade pip
+            pip3 install docker-compose==1.9.0
+
+      - run:
+          name: install dependencies - bats
+          command: |
+            dir=${CIRCLE_WORKING_DIRECTORY}
+            mkdir -p ${dir}
+
+            if [[ ! -e ${dir}/bats_v${BATS_VER}.tar.gz ]]; then 
+              curl -sSL -o ${dir}/bats_v${BATS_VER}.tar.gz https://github.com/sstephenson/bats/archive/v${BATS_VER}.tar.gz
+            fi
+            
+            tar -xf ${dir}/bats_v${BATS_VER}.tar.gz
+            bats-${BATS_VER}/install.sh /usr/local
+
+      - run:
+          name: docker client and remote info
+          command: |
+            docker version
+            docker info
+
+      - run:
+          name: docker image build
+          command: make all
+
+      - run:
+          name: test
+          command: |
+            docker inspect smizy/hbase:${TAG}
+            make test
+
+      - run:
+          name: docker image push
+          command: |
+
+            TAG_MINOR=1.2-alpine
+            TAG_MAJOR=${VERSION%%.*}-alpine 
+
+            if [ "${CIRCLE_BRANCH}" == "1.2" ]; then
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker image tag smizy/hbase:${TAG} smizy/hbase
+              docker image tag smizy/hbase:${TAG} smizy/hbase:${TAG_MINOR}
+              docker image tag smizy/hbase:${TAG} smizy/hbase:${TAG_MAJOR}
+
+              docker image push smizy/hbase:${TAG}
+              docker image push smizy/hbase:${TAG_MINOR}
+              # docker image push smizy/hbase:${TAG_MAJOR}              
+              # docker image push smizy/hbase:latest
+              docker logout
+              curl -X POST 'https://hooks.microbadger.com/images/smizy/hbase/HJbJIalNdOSSFYlTetDgjve1pGs='
+            fi
