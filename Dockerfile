@@ -17,7 +17,7 @@ LABEL \
 
 ENV HBASE_VERSION    $VERSION
 ENV HBASE_HOME       /usr/local/hbase-${HBASE_VERSION}
-ENV HADOOP_VERSION   2.7.3
+ENV HADOOP_VERSION   2.7
 ENV HADOOP_HOME      /usr/local/hadoop-${HADOOP_VERSION}
 ENV HBASE_CONF_DIR   ${HBASE_HOME}/conf
 ENV HBASE_LOG_DIR    /var/log/hbase
@@ -45,7 +45,7 @@ RUN set -x \
     ) \   
     && wget -q -O - ${mirror_url}/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz \
         | tar -xzf - -C /usr/local \
-    && ln -s /usr/local/hbase-${HBASE_VERSION} /usr/local/hbase-${HBASE_VERSION%.*} \
+    && ln -s /usr/local/hbase-${HBASE_VERSION} /usr/local/hbase-${HBASE_VERSION:0:3} \
     ## user/dir/permmsion
     && adduser -D  -g '' -s /sbin/nologin -u 1000 docker \
     && for user in hadoop hbase; do \

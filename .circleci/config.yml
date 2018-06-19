@@ -75,8 +75,8 @@ jobs:
           name: docker image push
           command: |
 
-            TAG_MINOR=1.2-alpine
-            TAG_MAJOR=${VERSION%%.*}-alpine 
+            TAG_MINOR=${VERSION:0:3}-alpine
+            TAG_MAJOR=${VERSION:0:1}-alpine 
 
             if [ "${CIRCLE_BRANCH}" == "1.2" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
