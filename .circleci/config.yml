@@ -78,7 +78,7 @@ jobs:
             TAG_MINOR=${VERSION:0:3}-alpine
             TAG_MAJOR=${VERSION:0:1}-alpine 
 
-            if [ "${CIRCLE_BRANCH}" == "1.2" ]; then
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker image tag smizy/hbase:${TAG} smizy/hbase
               docker image tag smizy/hbase:${TAG} smizy/hbase:${TAG_MINOR}
@@ -87,7 +87,7 @@ jobs:
               docker image push smizy/hbase:${TAG}
               docker image push smizy/hbase:${TAG_MINOR}
               # docker image push smizy/hbase:${TAG_MAJOR}              
-              # docker image push smizy/hbase:latest
+              docker image push smizy/hbase:latest
               docker logout
               curl -X POST 'https://hooks.microbadger.com/images/smizy/hbase/HJbJIalNdOSSFYlTetDgjve1pGs='
             fi
