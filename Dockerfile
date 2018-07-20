@@ -40,11 +40,11 @@ RUN set -x \
         libc6-compat \
         su-exec \ 
     && mirror_url=$( \
-        wget -q -O - http://www.apache.org/dyn/closer.cgi/hbase/ \
-        | sed -n 's#.*href="\(http://ftp.[^"]*\)".*#\1#p' \
-        | head -n 1 \
-    ) \   
-    && wget -q -O - ${mirror_url}/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz \
+        wget -q -O - "http://www.apache.org/dyn/closer.cgi/?as_json=1" \
+        | grep "preferred" \
+        | sed -n 's#.*"\(http://*[^"]*\)".*#\1#p' \
+        ) \ 
+    && wget -q -O - ${mirror_url}/hbase/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz \
         | tar -xzf - -C /usr/local \
     && ln -s /usr/local/hbase-${HBASE_VERSION} /usr/local/hbase-${HBASE_VERSION%.*} \
     ## user/dir/permmsion
