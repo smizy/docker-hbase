@@ -6,6 +6,7 @@ services:
     networks: ["vnet"]
     hostname: zookeeper-1.vnet
     image: smizy/zookeeper:3.4-alpine
+    ports: ["2181:2181"]
     environment:
       - SERVICE_2181_NAME=zookeeper
       - SERVICE_2888_IGNORE=true
@@ -53,7 +54,7 @@ services:
     hostname: hmaster-1.vnet
     image: smizy/hbase:1.2.7-alpine
     expose: [16000]
-    ports:  [16010]
+    ports:  ["60010:16010"]
     depends_on: ["zookeeper-1"]
     environment:
       - SERVICE_16000_NAME=hmaster
@@ -70,6 +71,7 @@ services:
     hostname: regionserver-1.vnet
     image: smizy/hbase:1.2.7-alpine
     expose: [16020, 16030]
+    ports: ["60020:16020"]
     depends_on: ["zookeeper-1"]
     environment:
       - SERVICE_16020_NAME=regionserver
