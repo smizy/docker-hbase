@@ -43,7 +43,7 @@ RUN set -x \
         | sed -n 's#.*href="\(http://ftp.[^"]*\)".*#\1#p' \
         | head -n 1 \
     ) \   
-    && wget -q -O - ${mirror_url}/${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz \
+    && wget -q -O - ${mirror_url}/hbase-${HBASE_VERSION}/hbase-${HBASE_VERSION}-bin.tar.gz \
         | tar -xzf - -C /usr/local \
     && ln -s /usr/local/hbase-${HBASE_VERSION} /usr/local/hbase-${HBASE_VERSION:0:3} \
     ## user/dir/permmsion
