@@ -71,7 +71,7 @@ e.g. let JanusGraph use hbase.
 2.  add ports to docker-compose.yml
 ```
   # for zookeeper-n:
-    ports: ["2181:2181"]
+    ports: ["0.0.0.0:2181:2181"]
 
 
   # for hmaster-n:
@@ -80,6 +80,8 @@ e.g. let JanusGraph use hbase.
 
   # for regionserver-n:
     ports: ["60020:16020"]
+  # or 
+    ports: ["0.0.0.0:60020:16020"]
 ```
 
 check ports `netstat -lntu`
@@ -90,10 +92,18 @@ check ports `netstat -lntu`
 
 e.g. add hmaster-1 and regionserver-1 to avoid error like `java.net.UnknownHostException: hmaster-1.vnet`
 ```
-IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' hmaster-1`
-echo $IP hmaster-1.vnet hmaster-1 | sudo tee -a /etc/hosts
+# first try to remove old items 
+sudo sed -i -E 's/^.+vnet (hmaster|regionserver)-1$//' /etc/hosts
+#sudo sed -i -E 's/^.*elasticsearch$//' /etc/hosts &&  sudo sed -i -E 's/^.*es-server$//' /etc/hosts
 
-IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' regionserver-1`
-echo $IP  regionserver-1.vnet regionserver-1 | sudo tee -a /etc/hosts
+# delete blank lines
+sudo sed -i '/^$/d' /etc/hosts
+
+IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' hmaster-1` &&  echo $IP hmaster-1.vnet hmaster-1 | sudo tee -a /etc/hosts
+
+IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' regionserver-1` &&  echo $IP  regionserver-1.vnet regionserver-1 | sudo tee -a /etc/hosts
+
+# IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' elasticsearch` &&  echo $IP  elasticsearch.vnet elasticsearch| sudo tee -a /etc/hosts
+# IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' elasticsearch` &&  echo $IP  es-server| sudo tee -a /etc/hosts
 ```
 
