@@ -59,3 +59,51 @@ docker-compose stop
 # cleanup container
 docker-compose rm -v
 ```
+
+# allow hbase used by other applications on host
+
+e.g. let JanusGraph use hbase.
+
+1. rm containers if you have start some.
+
+`docker-compose stop && docker-compose rm -v -f`
+
+2.  add ports to docker-compose.yml
+```
+  # for zookeeper-n:
+    ports: ["0.0.0.0:2181:2181"]
+
+
+  # for hmaster-n:
+    ports:  ["60010:16010"]
+
+
+  # for regionserver-n:
+    ports: ["60020:16020"]
+  # or 
+    ports: ["0.0.0.0:60020:16020"]
+```
+
+check ports `netstat -lntu`
+
+3. `docker-compose up -d`
+
+4. edit hosts
+
+e.g. add hmaster-1 and regionserver-1 to avoid error like `java.net.UnknownHostException: hmaster-1.vnet`
+```
+# first try to remove old items 
+sudo sed -i -E 's/^.+vnet (hmaster|regionserver)-1$//' /etc/hosts
+#sudo sed -i -E 's/^.*elasticsearch$//' /etc/hosts &&  sudo sed -i -E 's/^.*es-server$//' /etc/hosts
+
+# delete blank lines
+sudo sed -i '/^$/d' /etc/hosts
+
+IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' hmaster-1` &&  echo $IP hmaster-1.vnet hmaster-1 | sudo tee -a /etc/hosts
+
+IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' regionserver-1` &&  echo $IP  regionserver-1.vnet regionserver-1 | sudo tee -a /etc/hosts
+
+# IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' elasticsearch` &&  echo $IP  elasticsearch.vnet elasticsearch| sudo tee -a /etc/hosts
+# IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' elasticsearch` &&  echo $IP  es-server| sudo tee -a /etc/hosts
+```
+

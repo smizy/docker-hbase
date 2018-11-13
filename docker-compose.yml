@@ -1,11 +1,40 @@
 version: "2"
 services:
+  
+  janusgraph:
+    image: scil/janusgraph:latest
+    container_name: janusgraph
+    networks: ["vnet"]
+    hostname: janusgraph.vnet
+    links:
+      - "zookeeper-1:hbase-server"
+    extra_hosts:
+      - "es-server:192.168.1.111"
+    depends_on:
+      - elasticsearch
+      - zookeeper-1
+      - hmaster-1
+      - regionserver-1
+      - datanode-1
+    #volumes:
+      #- /vagrant/vendors/janusgraph-0.3.1-hadoop2/conf/gremlin-server:/home/janusgraph/janusgraph/conf/gremlin-server
+    ports: ["8182:8182"]
+    environment:
+      # socket, http or both
+      # https://docs.janusgraph.org/0.3.1/server.html#_janusgraph_server_as_both_a_websocket_and_http_endpoint
+      - JANUSGRAPH_TYPE=socket
+      - JANUSGRAPH_VERSION=0.3.1
+      #assign 2GB for the java heap
+      #- JAVA_OPTIONS=-Xms2048m -Xmx2048m
+      #test
+      #- JAVA_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=y
 
   zookeeper-1:
     container_name: zookeeper-1    
     networks: ["vnet"]
     hostname: zookeeper-1.vnet
     image: smizy/zookeeper:3.4-alpine
+    ports: ["2181:2181"]
     environment:
       - SERVICE_2181_NAME=zookeeper
       - SERVICE_2888_IGNORE=true
@@ -53,7 +82,7 @@ services:
     hostname: hmaster-1.vnet
     image: smizy/hbase:1.2.8-alpine
     expose: [16000]
-    ports:  [16010]
+    ports:  ["60010:16010"]
     depends_on: ["zookeeper-1"]
     environment:
       - SERVICE_16000_NAME=hmaster
@@ -70,6 +99,7 @@ services:
     hostname: regionserver-1.vnet
     image: smizy/hbase:1.2.8-alpine
     expose: [16020, 16030]
+    ports: ["60020:16020"]
     depends_on: ["zookeeper-1"]
     environment:
       - SERVICE_16020_NAME=regionserver
